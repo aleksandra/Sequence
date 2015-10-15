@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="ready">Gotowe</string>
+    <string name="action_info">Informacje</string>
+        <string name="instruction">Prosta gra logiczna, która zmusi Twoje szare komórki do pracy.\n\nInstrukcja:\nZgadnij jakiej liczby brakuje w ciągu.\n\nEnjoy!</string>
+    <string name="guessInfo">Odgadnij liczbę!</string>
+    <string name="level">Poziom</string>
+
+    <array name="correctStatuses">
+        <item>znakomicie</item>
+        <item>świetnie</item>
+        <item>masz rację!</item>
+        <item>poprawna odpowiedź</item>
+    </array>
+
+    <array name="incorrectStatuses">
+        <item>spróbuj jeszcze raz</item>
+        <item>zła odpowiedź</item>
+    </array>
+</resources>
