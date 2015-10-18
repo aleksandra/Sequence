@@ -2,21 +2,22 @@
     <string name="app_name">Sequence</string>
 
     <string name="ready">Ready</string>
-    <string name="action_info">Info</string>
-    <string name="instruction">Simple logical game, which force your grey cells to work.\n\n
-        Instruction:\nGuess what a number is missing in a sequence.\n\nEnjoy!</string>
+    <string name="actionInfo">Info</string>
+    <string name="instruction">Simple logical game, which force your grey cells to work.\n\nInstruction:\nGuess what a number is missing in a sequence.\n\nEnjoy!</string>
     <string name="guessInfo">Guess a number!</string>
     <string name="level">Level</string>
+    <string name="record">Record: <b>%1$d</b> in <b>%2$s</b></string>
+    <string name="newRecord">You beat a record!</string>
 
-    <array name="correctStatuses">
+    <string-array name="correctStatuses">
         <item>ok</item>
         <item>great</item>
         <item>you\'re right!</item>
-    </array>
+    </string-array>
 
-    <array name="incorrectStatuses">
+    <string-array name="incorrectStatuses">
         <item>try again</item>
-    </array>
+    </string-array>
 
 
 </resources>

@@ -20,9 +20,9 @@
         android:id="@+id/levelLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/points"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_alignBaseline="@id/points"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/level"
@@ -32,14 +32,14 @@
         android:id="@+id/level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/levelLabel"
-        android:layout_alignParentTop="true"
         android:layout_alignBaseline="@id/points"
-        android:layout_marginTop="16dp"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/levelLabel"
         android:text="1"
         android:textSize="40sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <Chronometer
         android:id="@+id/timer"
@@ -48,15 +48,23 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/points"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="4dp"
-        android:textStyle="bold"
-        />
+        android:layout_marginTop="2dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/level"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="2dp"
+        android:textColor="@android:color/black" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:orientation="vertical">
 
         <TextView
@@ -66,8 +74,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
             android:text="status"
-            android:visibility="invisible"
-            android:textSize="24sp"/>
+            android:textSize="24sp"
+            android:visibility="invisible" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -76,25 +84,24 @@
 
             <TextView
                 android:id="@+id/number1"
-                style="@style/numbers"/>
+                style="@style/numbers" />
 
             <TextView
                 android:id="@+id/number2"
-                style="@style/numbers"/>
+                style="@style/numbers" />
 
             <EditText
                 android:id="@+id/mysteriousNumber"
                 style="@style/numbers"
-                android:hint="\?"
-                />
+                android:hint="\?" />
 
             <TextView
                 android:id="@+id/number4"
-                style="@style/numbers"/>
+                style="@style/numbers" />
 
             <TextView
                 android:id="@+id/number5"
-                style="@style/numbers"/>
+                style="@style/numbers" />
 
         </LinearLayout>
 
@@ -104,8 +111,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -114,16 +121,20 @@
 
             <Button
                 style="@style/customKeyboardNumberButton"
-                android:text="1"/>
+                android:text="1" />
+
             <Button
                 style="@style/customKeyboardNumberButton"
                 android:text="2" />
+
             <Button
                 style="@style/customKeyboardNumberButton"
-                android:text="3"/>
+                android:text="3" />
+
             <Button
                 style="@style/customKeyboardNumberButton"
                 android:text="4" />
+
             <Button
                 style="@style/customKeyboardNumberButton"
                 android:text="5" />
@@ -136,16 +147,20 @@
 
             <Button
                 style="@style/customKeyboardNumberButton"
-                android:text="6"/>
+                android:text="6" />
+
             <Button
                 style="@style/customKeyboardNumberButton"
                 android:text="7" />
+
             <Button
                 style="@style/customKeyboardNumberButton"
-                android:text="8"/>
+                android:text="8" />
+
             <Button
                 style="@style/customKeyboardNumberButton"
                 android:text="9" />
+
             <Button
                 style="@style/customKeyboardNumberButton"
                 android:text="0" />
@@ -159,20 +174,23 @@
             <Button
                 style="@style/customKeyboardNumberButton"
                 android:text="-"/>
+
             <Button
                 style="@style/customKeyboardFunctionalButton"
                 android:drawableLeft="@mipmap/ic_action_arrow_left"
                 android:onClick="deleteNumber"/>
+
             <Button
                 style="@style/customKeyboardFunctionalButton"
                 android:drawableLeft="@mipmap/ic_action_reload"
-                android:onClick="resetGame"/>
+                android:onClick="resetGame" />
+
             <Button
                 style="@style/customKeyboardFunctionalButton"
                 android:layout_weight="2"
+                android:onClick="checkSequence"
                 android:text="@string/ready"
-                android:textStyle="bold"
-                android:onClick="checkSequence"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 

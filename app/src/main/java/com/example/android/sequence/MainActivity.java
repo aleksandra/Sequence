@@ -1,8 +1,7 @@
 package com.example.android.sequence;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-
 public class MainActivity extends ActionBarActivity {
 
     private int level = 1;
@@ -38,11 +36,12 @@ public class MainActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_main);
         generateSequence(level);
+        resetMysteriousNumber();
+        displayRecord();
         startTimer();
+
         disableSoftKeyboard((EditText) findViewById(R.id.mysteriousNumber));
-
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
     }
 
     /* GENERATE */
@@ -60,7 +59,7 @@ public class MainActivity extends ActionBarActivity {
             }
 
             setNumbers(numbers);
-            solution = sign + x;
+            solution = sign + " " + x;
         } else {
             String sign = "*";
             int startNumber = generateStartNumber(level, sign);
@@ -77,9 +76,7 @@ public class MainActivity extends ActionBarActivity {
             setNumbers(numbers);
             solution = sign + x + sign2 + x2;
 
-
         }
-
 
     }
 
@@ -162,7 +159,7 @@ public class MainActivity extends ActionBarActivity {
 
     /* CHECK */
     public void checkSequence(View view) {
-
+        v.vibrate(75);
         try {
             int guessedNumber = Integer.valueOf(((TextView) findViewById(R.id.mysteriousNumber)).getText().toString());
             boolean isCorrect = checkCorrectness(guessedNumber);
@@ -170,7 +167,7 @@ public class MainActivity extends ActionBarActivity {
             updateStatus(isCorrect);
             if(isCorrect) {
                 addPoints(level);
-                showSolution();         //TODO: remove it!
+                showSolution();         //TODO: remove it?
                 generateSequence(level);
                 resetStatus();          //TODO: fade the status
                 resetMysteriousNumber();
@@ -189,7 +186,8 @@ public class MainActivity extends ActionBarActivity {
 
     /*  RESET */
     public void resetGame(View view) {
-        long time = (SystemClock.elapsedRealtime() - stopTimer()) / 1000;
+        long time = getTime();
+        v.vibrate(75);
         saveRecord(points, time);
         resetLevel();
         resetStatus();
@@ -201,24 +199,24 @@ public class MainActivity extends ActionBarActivity {
 
     /* STATUS */
     private void updateStatus(boolean isCorrect) {
-        ColorStateList statusColor;
+        int statusColor;
         String statusText;
 
 
         if (isCorrect) {
-            statusColor = getResources().getColorStateList(R.color.correct);
-            TypedArray correctStatuses = getResources().obtainTypedArray(R.array.correctStatuses);
-            statusText = correctStatuses.getString(random.nextInt(correctStatuses.length()));
+            statusColor = getResources().getColor(R.color.correct);
+            String[] correctStatuses = getResources().getStringArray(R.array.correctStatuses);
+            statusText = correctStatuses[random.nextInt(correctStatuses.length)];
         }
         else {
-            statusColor = getResources().getColorStateList(R.color.incorrect);
-            TypedArray incorrectStatuses = getResources().obtainTypedArray(R.array.incorrectStatuses);
-            statusText = incorrectStatuses.getString(random.nextInt(incorrectStatuses.length()));
+            statusColor = getResources().getColor(R.color.incorrect);
+            String[] incorrectStatuses = getResources().getStringArray(R.array.incorrectStatuses);
+            statusText = incorrectStatuses[random.nextInt(incorrectStatuses.length)];
         }
 
         TextView status = (TextView) findViewById(R.id.status);
         status.setTextColor(statusColor);
-        status.setText(statusText + mysteriousNumber);
+        status.setText(statusText + mysteriousNumber); //TODO: remove mysterious number
         status.setVisibility(View.VISIBLE);
     }
 
@@ -269,17 +267,49 @@ public class MainActivity extends ActionBarActivity {
         return ((Chronometer) findViewById(R.id.timer)).getBase();
     }
 
+    private long getTime() {
+        return (SystemClock.elapsedRealtime() - stopTimer()) / 1000;
+    }
+
     /* RECORD */
+    private void displayRecord(int points, long time) {
+        TextView record = (TextView) findViewById(R.id.record);
+        String timeString = String.format("%02d:%02d", time / 60, time % 60);
+        String recordString = getResources().getString(R.string.record, points, timeString);
+        record.setText(recordString);
+    }
+
+    private void displayRecord() {
+        //TODO: bestPoints and bestTime fields in the class??
+        SharedPreferences savedRecord = getPreferences(MODE_PRIVATE);
+        int bestPoints = savedRecord.getInt("bestPoints", 0);
+        long bestTime = savedRecord.getLong("bestTime", 0);
+
+        if (bestPoints != 0 && bestTime != 0) {
+            displayRecord(bestPoints, bestTime);
+        }
+    }
+
     private void saveRecord(int points, long time) {
         if (isRecord(points, time)) {
-            String text = "Your new record is: " + points + " " + time / 60 + ":" + time % 60;
-            Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+            SharedPreferences.Editor savedRecord = getPreferences(MODE_PRIVATE).edit();
+            savedRecord.putInt("bestPoints", points);
+            savedRecord.putLong("bestTime", time);
+            savedRecord.commit();
+            displayRecord(points, time);
+
+            String text = getResources().getString(R.string.newRecord);
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
         }
     }
 
     private boolean isRecord(int currentPoints, long currentTime) {
-        //TODO: check if it really is a record - compare with last record(points and time)
-        return true;
+        //TODO: bestPoints and bestTime fields in the class??
+        SharedPreferences savedRecord = getPreferences(MODE_PRIVATE);
+        int bestPoints = savedRecord.getInt("bestPoints", 0);
+        long bestTime = savedRecord.getLong("bestTime", 0);
+
+        return (currentPoints > bestPoints || (bestPoints == currentPoints && currentTime < bestTime));
     }
 
     /* CUSTOM KEYBOARD */
@@ -294,7 +324,7 @@ public class MainActivity extends ActionBarActivity {
                     return;
             }
             if (number.equals("0")) {
-                if (currentText.isEmpty() || currentText.equals("-"))
+                if (currentText.equals("-"))
                     return;
             }
             currentText = currentText + number;
@@ -314,7 +344,6 @@ public class MainActivity extends ActionBarActivity {
             mysteriousNumberView.setSelection(currentText.length());
             v.vibrate(50);
         }
-
     }
 
     /* */
@@ -330,7 +359,6 @@ public class MainActivity extends ActionBarActivity {
 
     public void showSolution() {
         Toast.makeText(this, solution, Toast.LENGTH_SHORT).show();
-        //addPoints(-level);  //TODO: add it if it is possible to see solution
     }
 
     public void disableSoftKeyboard(EditText et) {
@@ -372,4 +400,12 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        saveRecord(points, getTime());
+    }
+
+
 }

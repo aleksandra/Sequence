@@ -2,20 +2,23 @@
 
 <resources>
     <string name="ready">Gotowe</string>
-    <string name="action_info">Informacje</string>
-        <string name="instruction">Prosta gra logiczna, która zmusi Twoje szare komórki do pracy.\n\nInstrukcja:\nZgadnij jakiej liczby brakuje w ciągu.\n\nEnjoy!</string>
+    <string name="actionInfo">Informacje</string>
+    <string name="instruction">Prosta gra logiczna, która zmusi Twoje szare komórki do pracy.\n\nInstrukcja:\nZgadnij jakiej liczby brakuje w ciągu.\n\nBaw się dobrze!</string>
     <string name="guessInfo">Odgadnij liczbę!</string>
     <string name="level">Poziom</string>
+    <string name="record">Rekord: <b>%1$d</b> w <b>%2$s</b></string>
+    <string name="newRecord">Nowy rekord!</string>
 
-    <array name="correctStatuses">
+
+    <string-array name="correctStatuses">
         <item>znakomicie</item>
         <item>świetnie</item>
         <item>masz rację!</item>
         <item>poprawna odpowiedź</item>
-    </array>
+    </string-array>
 
-    <array name="incorrectStatuses">
+    <string-array name="incorrectStatuses">
         <item>spróbuj jeszcze raz</item>
         <item>zła odpowiedź</item>
-    </array>
+    </string-array>
 </resources>
